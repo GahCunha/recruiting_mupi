@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Mensagens{% endblock %}
+{% block content %}
+  <h1>Mensagens</h1>
+  <p>Listagem (placeholder)</p>
+  <form action="{% url 'logout_confirm' %}" method="get">
+    <button type="submit">Sair</button>
+  </form>
+{% endblock %}

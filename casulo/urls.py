@@ -1,6 +1,16 @@
 from django.urls import path
-from .views import landpage
+from django.contrib.auth import views as auth_views
+from . import views
 
 urlpatterns = [
-    path("", landpage, name="landpage"),
+    path("", views.landpage, name="landpage"),
+    
+     # painel (auth)
+    path("painel/login/", auth_views.LoginView.as_view(template_name="login.html"), name="login"),
+    path("painel/logout/", views.logout_confirm, name="logout_confirm"),
+
+    path("painel/mensagens/", views.messages_list, name="messages_list"),
+    path("painel/mensagens/<int:pk>/", views.message_detail, name="message_detail"),
+    path("painel/mensagens/<int:pk>/editar/", views.message_edit, name="message_edit"),
+    path("painel/mensagens/<int:pk>/excluir/", views.message_delete_confirm, name="message_delete_confirm"),
 ]

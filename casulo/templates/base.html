@@ -1,13 +1,22 @@
 {% load static %}
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{% block title %}Casulo{% endblock %}</title>
+
     <link rel="stylesheet" href="{% static 'css/output.css' %}" />
+    <script defer src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   </head>
   <body>
+    <nav>
+      <a href="{% url 'landpage' %}">Landpage</a>
+      <a href="{% url 'messages_list' %}">Painel</a>
+      <a href="{% url 'login' %}">Login</a>
+    </nav>
+
     {% block content %}{% endblock %}
   </body>
 </html>
