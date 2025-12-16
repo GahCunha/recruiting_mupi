@@ -42,8 +42,24 @@ def message_detail(request, pk):
 
 @login_required
 def message_edit(request, pk):
-    return render(request, "message_edit.html", {"pk": pk})
+    msg = get_object_or_404(Mensagem, pk=pk)
+
+    if request.method == "POST":
+        form = MensagemForm(request.POST, instance=msg)
+        if form.is_valid():
+            form.save()
+            return redirect("message_detail", pk=msg.pk)
+    else:
+        form = MensagemForm(instance=msg)
+
+    return render(request, "message_edit.html", {"form": form, "msg": msg})
 
 @login_required
 def message_delete_confirm(request, pk):
-    return render(request, "message_delete_confirm.html", {"pk": pk})
+    msg = get_object_or_404(Mensagem, pk=pk)
+
+    if request.method == "POST":
+        msg.delete()
+        return redirect("messages_list")
+
+    return render(request, "message_delete_confirm.html", {"msg": msg})
