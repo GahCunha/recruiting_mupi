@@ -10,7 +10,7 @@ class BaseModel(models.Model):
   class Meta:
     abstract = True
 
-class Message(models.Model):
+class Mensagem(models.Model):
     nome = models.CharField(_("Nome"), max_length=120)
     email = models.EmailField(_("Email"))
     mensagem  = models.TextField(_("Mensagem"))
