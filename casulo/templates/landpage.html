@@ -1,6 +1,22 @@
 {% extends "base.html" %}
 {% block title %}Casulo{% endblock %}
+
 {% block content %}
   <h1>Casulo</h1>
-  <p>Landpage (placeholder)</p>
+
+  {% if messages %}
+    <ul>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <h2>Contato</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enviar</button>
+  </form>
 {% endblock %}

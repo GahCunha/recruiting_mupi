@@ -1,9 +1,21 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.shortcuts import redirect, render
+from django.contrib import messages
+
+from .forms import MensagemForm
 
 def landpage(request):
-    return render(request, "landpage.html")
+    if request.method == "POST":
+        form = MensagemForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Mensagem enviada com sucesso!")
+            return redirect("landpage")
+    else:
+        form = MensagemForm()
+
+    return render(request, "landpage.html", {"form": form})
 
 def logout_confirm(request):
     if request.method == "POST":
