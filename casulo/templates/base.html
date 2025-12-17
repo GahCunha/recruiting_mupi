@@ -10,7 +10,7 @@
     <script defer src="https://unpkg.com/htmx.org@1.9.12"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   </head>
-  <body>
+  <body x-data>
     <nav>
       <a href="{% url 'landpage' %}">Landpage</a>
       <a href="{% url 'messages_list' %}">Painel</a>
@@ -18,7 +18,31 @@
     </nav>
 
     {% block content %}{% endblock %}
-    
+    <div
+      x-data="{ open:false, title:'', text:'', action:'#' }"
+      x-on:confirm.window="
+        open = true;
+        title = $event.detail.title;
+        text = $event.detail.text;
+        action = $event.detail.action;
+      "
+      x-show="open"
+      x-cloak
+      class="fixed inset-0"
+    >
+      <div class="absolute inset-0" @click="open=false"></div>
+
+      <div class="relative">
+        <h2 x-text="title"></h2>
+        <p x-text="text"></p>
+
+        <form method="post" :action="action">
+          {% csrf_token %}
+          <button type="submit">Confirmar</button>
+          <button type="button" @click="open=false">Cancelar</button>
+        </form>
+      </div>
+    </div>
     <script defer src="{% static 'js/htmx-csrf.js' %}"></script>
     <script defer src="{% static 'js/messages-list.js' %}"></script>
   </body>

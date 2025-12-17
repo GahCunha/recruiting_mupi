@@ -79,6 +79,15 @@
 <div id="messages-container">{% include "partials/messages_ul.html" %}</div>
 
 <form action="{% url 'logout_confirm' %}" method="get">
-  <button type="submit">Sair</button>
+<button
+  type="button"
+  @click="$dispatch('confirm', {
+    title: 'Sair',
+    text: 'Tem certeza que deseja sair?',
+    action: '{% url 'logout_confirm' %}'
+  })"
+>
+  Sair
+</button>
 </form>
 {% endblock %}
