@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 from django.contrib.auth import logout
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib import messages
@@ -23,6 +24,7 @@ def logout_confirm(request):
         logout(request)
         return redirect("landpage")
     return render(request, "logout_confirm.html")
+
 
 @login_required
 def messages_list(request):
@@ -63,3 +65,11 @@ def message_delete_confirm(request, pk):
         return redirect("messages_list")
 
     return render(request, "message_delete_confirm.html", {"msg": msg})
+
+@require_POST
+@login_required
+def message_toggle_read(request, pk):
+    msg = get_object_or_404(Mensagem, pk=pk)
+    msg.lido = not msg.lido
+    msg.save(update_fields=["lido"])
+    return render(request, "partials/message_status.html", {"m": msg})

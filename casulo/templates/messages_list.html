@@ -11,11 +11,16 @@
             {{ m.nome }} — {{ m.email }}
           </a>
 
-          {% if m.lido %}
-            <span>(lida)</span>
-          {% else %}
-            <strong>(não lida)</strong>
-          {% endif %}
+          {% include "partials/message_status.html" with m=m %}
+
+          <button
+            type="button"
+            hx-post="{% url 'message_toggle_read' m.pk %}"
+            hx-target="#status-{{ m.pk }}"
+            hx-swap="outerHTML"
+          >
+            Alternar lido
+          </button>
 
           <small>— {{ m.data_envio }}</small>
         </li>
