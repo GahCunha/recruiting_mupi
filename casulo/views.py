@@ -8,9 +8,20 @@ from django.http import HttpResponse
 from django.db.models import Q
 
 from .forms import MensagemForm , MensagemEditForm
-from .models import Mensagem
+from .models import Mensagem, Service, ServiceCategory
 
 def landpage(request):
+    active = request.GET.get("cat", "all")
+
+    categories = ServiceCategory.objects.filter(is_active=True)
+    services = (
+        Service.objects.select_related("category")
+        .filter(is_active=True, category__is_active=True)
+    )
+
+    if active != "all":
+        services = services.filter(category__slug=active)
+    
     if request.method == "POST":
         form = MensagemForm(request.POST)
         if form.is_valid():
@@ -19,8 +30,10 @@ def landpage(request):
             return redirect("landpage")
     else:
         form = MensagemForm()
+        
+        context = {"form": form, "categories": categories, "services": services, "active_cat": active}
 
-    return render(request, "landpage.html", {"form": form})
+    return render(request, "landpage.html", context)
 
 def logout_confirm(request):
     if request.method == "POST":
