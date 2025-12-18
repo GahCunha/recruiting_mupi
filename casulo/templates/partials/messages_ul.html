@@ -1,7 +1,7 @@
 <div id="messages-list">
-  <ul id="messages-ul">
+  <ul id="messages-ul" class="space-y-1">
     {% for m in mensagens %}
-      {% include "partials/message_row.html" with m=m status=status %}
+    {% include "partials/message_row.html" with m=m status=status %}
     {% endfor %}
   </ul>
 
