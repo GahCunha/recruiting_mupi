@@ -13,27 +13,53 @@ from .models import Mensagem, Service, ServiceCategory
 def landpage(request):
     active = request.GET.get("cat", "all")
 
-    categories = ServiceCategory.objects.filter(is_active=True)
+    categories = ServiceCategory.objects.filter(is_active=True).order_by("order", "name")
     services = (
-        Service.objects.select_related("category")
+        Service.objects
         .filter(is_active=True, category__is_active=True)
+        .select_related("category")
+        .order_by("order", "title")
     )
 
     if active != "all":
         services = services.filter(category__slug=active)
-    
+
+
+    form = MensagemForm(request.POST)
+
     if request.method == "POST":
-        form = MensagemForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, "Mensagem enviada com sucesso!")
             return redirect("landpage")
-    else:
-        form = MensagemForm()
-        
-        context = {"form": form, "categories": categories, "services": services, "active_cat": active}
+
+    context = {
+        "form": form,
+        "categories": categories,
+        "services": services,
+        "active_cat": active,
+    }
 
     return render(request, "landpage.html", context)
+
+def services_partial(request):
+    active = request.GET.get("cat", "all")
+
+    services = (
+        Service.objects
+        .filter(is_active=True, category__is_active=True)
+        .select_related("category")
+        .order_by("order", "title")
+    )
+
+    if active != "all":
+        services = services.filter(category__slug=active)
+
+    return render(request, "partials/services_grid.html", {
+        "services": services,
+        "active_cat": active,
+    })
+
 
 def logout_confirm(request):
     if request.method == "POST":
@@ -94,7 +120,6 @@ def message_delete_confirm(request, pk):
 
     return render(request, "message_delete_confirm.html", {"msg": msg})
 
-@require_POST
 @require_POST
 @login_required
 def message_toggle_read(request, pk):

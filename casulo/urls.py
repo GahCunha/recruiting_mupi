@@ -14,4 +14,6 @@ urlpatterns = [
     path("painel/mensagens/<int:pk>/editar/", views.message_edit, name="message_edit"),
     path("painel/mensagens/<int:pk>/toggle-read/", views.message_toggle_read, name="message_toggle_read"),
     path("painel/mensagens/<int:pk>/excluir/", views.message_delete_confirm, name="message_delete_confirm"),
+    
+    path("partials/services/", views.services_partial, name="services_partial"),
 ]
