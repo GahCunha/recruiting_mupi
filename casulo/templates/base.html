@@ -251,15 +251,6 @@
     <script defer src="{% static 'js/htmx-csrf.js' %}"></script>
     <script defer src="{% static 'js/messages-list.js' %}"></script>
     <script defer src="https://unpkg.com/lucide@latest"></script>
-    <script>
-      const refreshLucideIcons = () => {
-        if (window.lucide) {
-          window.lucide.createIcons();
-        }
-      };
-
-      document.addEventListener("DOMContentLoaded", refreshLucideIcons);
-      document.addEventListener("htmx:afterSwap", refreshLucideIcons);
-    </script>
+    <script defer src="{% static 'js/ui.js' %}"></script>
   </body>
 </html>

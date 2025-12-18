@@ -3,6 +3,7 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.contrib.auth import logout
 from django.shortcuts import redirect, render, get_object_or_404
+from django.urls import reverse
 from django.contrib import messages
 from django.http import HttpResponse
 from django.db.models import Q
@@ -25,13 +26,21 @@ def landpage(request):
         services = services.filter(category__slug=active)
 
 
-    form = MensagemForm(request.POST)
+    is_htmx = request.headers.get("HX-Request") == "true"
 
     if request.method == "POST":
+        form = MensagemForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, "Mensagem enviada com sucesso!")
-            return redirect("landpage")
+            if is_htmx:
+                form = MensagemForm()
+                return render(request, "partials/contact_form.html", {"form": form})
+            return redirect(f"{reverse('landpage')}#contato")
+        if is_htmx:
+            return render(request, "partials/contact_form.html", {"form": form})
+    else:
+        form = MensagemForm()
 
     context = {
         "form": form,

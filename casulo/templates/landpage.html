@@ -232,16 +232,6 @@
 
 <!-- End Services Section -->
 
-<!-- Display messages -->
-{% if messages %}
-<ul>
-  {% for message in messages %}
-  <li>{{ message }}</li>
-  {% endfor %}
-</ul>
-{% endif %}
-<!-- End Display messages -->
-
 <!-- Contact Section -->
 <section id="contato" class="mx-auto max-w-6xl px-4 lg:px-8 py-12">
   <div class="rounded-2xl border border-border bg-card shadow-sm">
@@ -252,22 +242,8 @@
       </p>
     </div>
 
-    <div class="px-6 py-6">
-      <form method="post" class="space-y-4">
-        {% csrf_token %}
-        <div
-          class="**:max-w-full [&_p]:space-y-2 [&_label]:block [&_label]:text-sm [&_label]:pt-2 [&_label]:font-medium [&_input]:w-full [&_input]:rounded-xl [&_input]:border [&_input]:border-input [&_input]:bg-background [&_input]:px-3 [&_input]:py-2 [&_textarea]:w-full [&_textarea]:rounded-xl [&_textarea]:border [&_textarea]:border-input [&_textarea]:bg-background [&_textarea]:px-3 [&_textarea]:py-2"
-        >
-          {{ form.as_p }}
-        </div>
-
-        <button
-          type="submit"
-          class="btn bg-primary text-primary-foreground hover:opacity-90"
-        >
-          Enviar
-        </button>
-      </form>
+    <div id="contact-form">
+      {% include "partials/contact_form.html" %}
     </div>
   </div>
 </section>
