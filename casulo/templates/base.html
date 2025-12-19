@@ -98,12 +98,14 @@
                 Sair
               </button>
               {% else %}
+              {% if request.resolver_match.url_name != 'login' %}
               <a
                 href="{% url 'login' %}"
                 class="rounded-full px-4 py-2 text-sm text-foreground/80 hover:bg-accent transition"
               >
                 Entrar
               </a>
+              {% endif %}
               {% endif %}
             {% else %}
               <a
@@ -212,6 +214,7 @@
                   Sair
                 </button>
                 {% else %}
+                {% if request.resolver_match.url_name != 'login' %}
                 <a
                   @click="open=false"
                   href="{% url 'login' %}"
@@ -219,6 +222,7 @@
                 >
                   Entrar
                 </a>
+                {% endif %}
                 {% endif %}
               {% endif %}
             </div>
