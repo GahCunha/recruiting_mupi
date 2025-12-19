@@ -98,6 +98,10 @@ def messages_list(request):
 
     qs = Mensagem.objects.all()
 
+    data_envio = request.GET.get("data_envio")
+    if data_envio:
+        qs = qs.filter(data_envio__date=data_envio)
+
     if status == "unread":
         qs = qs.filter(lido=False)
     elif status == "read":
@@ -106,7 +110,7 @@ def messages_list(request):
     if q:
         qs = qs.filter(Q(nome__icontains=q) | Q(email__icontains=q))
 
-    context = {"mensagens": qs, "status": status, "q": q}
+    context = {"mensagens": qs, "status": status, "q": q, "data_envio": data_envio}
 
     if request.headers.get("HX-Request") == "true":
         return render(request, "partials/messages_ul.html", context)

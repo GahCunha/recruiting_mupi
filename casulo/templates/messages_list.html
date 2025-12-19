@@ -19,8 +19,10 @@
     class="rounded-2xl border border-border bg-card/70 backdrop-blur shadow-sm"
     x-data="{
       status: '{{ status }}',
+      data_envio: '{{ data_envio|default:'' }}',
       clearAndRefresh() {
         this.$refs.q.value = '';
+        this.data_envio = '';
 
         htmx.ajax(
           'GET',
@@ -74,49 +76,65 @@
           </button>
         </div>
 
-        <!-- Chips de status -->
-        <div class="flex flex-wrap gap-2">
-          <button
-            type="button"
-            class="btn px-3 py-2"
-            :class="status === 'all' ? 'bg-primary text-primary-foreground' : 'btn-ghost'"
-            @click="status='all'"
-            hx-get="{% url 'messages_list' %}"
-            hx-target="#messages-container"
-            hx-swap="innerHTML"
-            hx-include="#filters-form"
-            hx-push-url="true"
-          >
-            Todas
-          </button>
+        <div class="flex flex-wrap items-center gap-2">
+            <!-- Date Filter -->
+            <input 
+                type="date" 
+                name="data_envio"
+                x-model="data_envio"
+                class="rounded-xl border border-input bg-background px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-ring/50"
+                hx-get="{% url 'messages_list' %}"
+                hx-trigger="change"
+                hx-target="#messages-container"
+                hx-swap="innerHTML"
+                hx-include="#filters-form"
+                hx-push-url="true"
+            />
 
-          <button
-            type="button"
-            class="btn px-3 py-2"
-            :class="status === 'unread' ? 'bg-primary text-primary-foreground' : 'btn-ghost'"
-            @click="status='unread'"
-            hx-get="{% url 'messages_list' %}"
-            hx-target="#messages-container"
-            hx-swap="innerHTML"
-            hx-include="#filters-form"
-            hx-push-url="true"
-          >
-            Não lidas
-          </button>
+            <!-- Chips de status -->
+            <div class="flex flex-wrap gap-2">
+            <button
+                type="button"
+                class="btn px-3 py-2"
+                :class="status === 'all' ? 'bg-primary text-primary-foreground' : 'btn-ghost'"
+                @click="status='all'"
+                hx-get="{% url 'messages_list' %}"
+                hx-target="#messages-container"
+                hx-swap="innerHTML"
+                hx-include="#filters-form"
+                hx-push-url="true"
+            >
+                Todas
+            </button>
 
-          <button
-            type="button"
-            class="btn px-3 py-2"
-            :class="status === 'read' ? 'bg-primary text-primary-foreground' : 'btn-ghost'"
-            @click="status='read'"
-            hx-get="{% url 'messages_list' %}"
-            hx-target="#messages-container"
-            hx-swap="innerHTML"
-            hx-include="#filters-form"
-            hx-push-url="true"
-          >
-            Lidas
-          </button>
+            <button
+                type="button"
+                class="btn px-3 py-2"
+                :class="status === 'unread' ? 'bg-primary text-primary-foreground' : 'btn-ghost'"
+                @click="status='unread'"
+                hx-get="{% url 'messages_list' %}"
+                hx-target="#messages-container"
+                hx-swap="innerHTML"
+                hx-include="#filters-form"
+                hx-push-url="true"
+            >
+                Não lidas
+            </button>
+
+            <button
+                type="button"
+                class="btn px-3 py-2"
+                :class="status === 'read' ? 'bg-primary text-primary-foreground' : 'btn-ghost'"
+                @click="status='read'"
+                hx-get="{% url 'messages_list' %}"
+                hx-target="#messages-container"
+                hx-swap="innerHTML"
+                hx-include="#filters-form"
+                hx-push-url="true"
+            >
+                Lidas
+            </button>
+            </div>
         </div>
       </form>
     </div>
