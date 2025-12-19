@@ -1,4 +1,4 @@
-viewpo{% load static %}
+{% load static %}
 <!DOCTYPE html>
 <html>
   <head>
@@ -244,12 +244,15 @@ viewpo{% load static %}
     </button>
 
     <div
-      x-data="{ open:false, title:'', text:'', action:'#' }"
+      x-data="{ open:false, title:'', text:'', action:'#', htmx:false, target:'', swap:'' }"
       x-on:confirm.window="
     open = true;
     title = $event.detail.title;
     text = $event.detail.text;
     action = $event.detail.action;
+    htmx = $event.detail.htmx || false;
+    target = $event.detail.target || '';
+    swap = $event.detail.swap || '';
   "
       x-show="open"
       x-cloak
@@ -282,7 +285,14 @@ viewpo{% load static %}
               Cancelar
             </button>
 
-            <form method="post" :action="action">
+            <form
+              method="post"
+              :action="htmx ? null : action"
+              :hx-post="htmx ? action : null"
+              :hx-target="htmx ? target : null"
+              :hx-swap="htmx ? swap : null"
+              @htmx:afterRequest="open=false"
+            >
               {% csrf_token %}
               <button type="submit" class="btn btn-danger">Confirmar</button>
             </form>
