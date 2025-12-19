@@ -1,11 +1,13 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
+from django.views.generic import RedirectView
 from . import views
 
 urlpatterns = [
     path("", views.landpage, name="landpage"),
     
      # painel (auth)
+    path("painel/", RedirectView.as_view(pattern_name="login", permanent=False)),
     path("painel/login/", auth_views.LoginView.as_view(template_name="login.html", redirect_authenticated_user=True), name="login"),
     path("painel/logout/", views.logout_confirm, name="logout_confirm"),
 
