@@ -2,15 +2,15 @@
   <div class="px-6 pt-6">
     {% for message in messages %}
       {% if "success" in message.tags %}
-        <div class="mb-3 rounded-xl border border-primary/30 bg-primary/10 px-4 py-3 text-sm text-primary transition-opacity duration-300" role="status" data-auto-dismiss="4500">
+        <div class="mb-3 rounded-xl border border-primary/30 bg-primary/10 px-4 py-2 text-sm text-primary transition-opacity duration-300" role="status" data-auto-dismiss="4500">
           {{ message }}
         </div>
       {% elif "error" in message.tags %}
-        <div class="mb-3 rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive" role="alert">
+        <div class="mb-3 rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-2 text-sm text-destructive" role="alert">
           {{ message }}
         </div>
       {% else %}
-        <div class="mb-3 rounded-xl border border-border bg-card/70 px-4 py-3 text-sm text-foreground" role="status">
+        <div class="mb-3 rounded-xl border border-border bg-card/70 px-4 py-2 text-sm text-foreground" role="status">
           {{ message }}
         </div>
       {% endif %}
@@ -18,7 +18,7 @@
   </div>
 {% endif %}
 
-<div class="px-6 py-6">
+<div class="px-6 py-2">
   <form
     method="post"
     class="space-y-4"
