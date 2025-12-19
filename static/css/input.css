@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Barrio&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
 
 @custom-variant dark (&:is(.dark *));
@@ -64,8 +64,8 @@
 }
 
 @theme inline {
-  --font-gochi: "Gochi Hand", cursive;
-  
+  --font-barrio: "Barrio", cursive;
+  --font-montserrat: "Montserrat", sans-serif;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -106,7 +106,7 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply min-h-full bg-background text-foreground;
+    @apply min-h-full bg-background text-foreground font-montserrat;
   }
 
   [x-cloak] {
